@@ -1,32 +1,14 @@
-package com.company.order.entity;
+package com.company.order.dto;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "orders")
-public class Order {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String productName;
-
-    private Integer quantity;
-
-    private Double price;
-
-    private String status;
-
+public class OrderResponse {
+    Long id;
+    String productName;
+    Integer quantity;
+    Double price;
+    String status;
     private LocalDateTime createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.status = "CREATED";
-    }
-
     // Getters & Setters
     public Long getId() {
         return id;
@@ -64,4 +46,5 @@ public class Order {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
 }

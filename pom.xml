@@ -23,6 +23,13 @@
     </properties>
 
     <dependencies>
+
+        <!-- Spring Web (REQUIRED for @RestController) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <!-- JPA / Hibernate -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,6 +42,7 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
     </dependencies>
 
 </project>
