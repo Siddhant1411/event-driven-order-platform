@@ -11,11 +11,12 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private Long userID;
 
     private BigDecimal amount;
 
-    private Long id;
 
     private String productName;
 
