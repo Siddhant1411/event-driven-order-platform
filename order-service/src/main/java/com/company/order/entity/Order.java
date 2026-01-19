@@ -1,6 +1,8 @@
 package com.company.order.entity;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,6 +11,10 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userID;
+
+    private BigDecimal amount;
+
     private Long id;
 
     private String productName;
@@ -63,5 +69,13 @@ public class Order {
     }
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getUserId() {
+        return userID;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
     }
 }
