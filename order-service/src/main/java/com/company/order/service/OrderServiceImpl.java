@@ -1,5 +1,7 @@
 package com.company.order.service;
-
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.company.order.dto.OrderRequest;
 import com.company.order.dto.OrderResponse;
 import com.company.order.entity.Order;
@@ -14,7 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-
+    private static final Logger log =
+            LoggerFactory.getLogger(OrderServiceImpl.class);
     private final OrderRepository orderRepository;
     private final OrderEventProducer orderEventProducer;
     private final OrderMapper orderMapper;
@@ -29,25 +32,31 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse createOrder(OrderRequest request) {
-
-        // 1️⃣ Map request → entity
         Order order = OrderMapper.toEntity(request);
 
-        // 2️⃣ Save to DB
-        Order savedOrder = orderRepository.save(order);
+        // Debug: log the entity before save
+        log.info("Order before save - userId={}, amount={}, status={}",
+                order.getUserId(), order.getAmount(), order.getStatus());
 
-        // 3️⃣ Create Kafka event
+        Order savedOrder = orderRepository.saveAndFlush(order);
+
+        // Debug: log after save (should be same except id generated)
+        log.info("Saved order - id={}, userId={}, amount={}, status={}",
+                savedOrder.getId(), savedOrder.getUserId(), savedOrder.getAmount(), savedOrder.getStatus());
+
         OrderCreatedEvent event = new OrderCreatedEvent(
-                savedOrder.getId(),
-                String.valueOf(savedOrder.getUserId()),
+                savedOrder.getId().toString(),   // explicit toString() if not already done
+                savedOrder.getUserId(),
                 savedOrder.getAmount(),
                 savedOrder.getStatus()
         );
 
-        // 4️⃣ Publish to Kafka
+        // Debug: log event fields
+        log.info("Publishing event - orderId={}, userId={}, amount={}, status={}",
+                event.getOrderId(), event.getUserId(), event.getAmount(), event.getStatus());
+
         orderEventProducer.publishOrderCreatedEvent(event);
 
-        // 5️⃣ Return response
         return orderMapper.toResponse(savedOrder);
     }
 

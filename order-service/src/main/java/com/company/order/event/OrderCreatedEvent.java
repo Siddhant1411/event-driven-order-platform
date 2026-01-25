@@ -1,29 +1,18 @@
 package com.company.order.event;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderCreatedEvent {
 
     private String orderId;
-    private String userId;
+    private Long userId;
     private BigDecimal amount;
     private String status;
-
-    public OrderCreatedEvent() {}
-
-    public OrderCreatedEvent(String orderId, String userId,
-                             BigDecimal amount, String status) {
-        this.orderId = orderId;
-        this.userId = userId;
-        this.amount = amount;
-        this.status = status;
-    }
-
-    public OrderCreatedEvent(Long id, String userId, BigDecimal amount, String status) {
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-    // getters & setters
 }

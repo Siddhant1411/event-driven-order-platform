@@ -1,12 +1,13 @@
 package com.company.order.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class OrderResponse {
     Long id;
     String productName;
     Integer quantity;
-    Double price;
+    BigDecimal price;
     String status;
     private LocalDateTime createdAt;
     // Getters & Setters
@@ -28,10 +29,10 @@ public class OrderResponse {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
     public String getStatus() {
